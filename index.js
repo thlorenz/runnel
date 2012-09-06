@@ -26,4 +26,6 @@ module.exports = function (funcs, done) {
       done.apply(this, args);
     }
   }
+  
+  func.call(this, handler);
 }

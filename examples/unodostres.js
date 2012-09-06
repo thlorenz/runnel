@@ -1,9 +1,4 @@
-# runnel
-
-Minimalistic sequential flow control
-
-```javascript
-var runnel = require('runnel');
+var runnel = require('..');
 
 function uno (cb) {
   cb(null, 'uno');
@@ -29,8 +24,3 @@ runnel(
         console.log('Success: uno: %s, dos: %s, tres: %s', uno, dos, tres);
     }
 );
-
-// Outputs: "Success: uno: uno, dos: dos, tres: tres"
-
-```
-

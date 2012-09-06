@@ -1,8 +1,10 @@
 # runnel
 
+`npm install runnel`
+
 Minimalistic sequential flow control
 
-`npm install runnel`
+## Example
 
 ```javascript
 var runnel = require('runnel');

@@ -2,7 +2,7 @@
   "author": "Thorsten Lorenz <thlorenz@gmx.de> (http://thlorenz.com)",
   "name": "runnel",
   "description": "Minimalistic sequential flow control",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/thlorenz/runnel.git"
@@ -11,9 +11,9 @@
   "dependencies": {},
   "devDependencies": {},
   "optionalDependencies": {},
-  "keywords": [ 
-    "flow control", 
-    "async" 
+  "keywords": [
+    "flow control",
+    "async"
   ],
   "license": "BSD",
   "engines": {

@@ -1,8 +1,10 @@
 # runnel
 
-`npm install runnel`
-
 Minimalistic sequential flow control
+
+## Installation
+
+    npm install runnel
 
 ## Example
 

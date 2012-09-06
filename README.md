@@ -2,6 +2,8 @@
 
 Minimalistic sequential flow control
 
+`npm install runnel`
+
 ```javascript
 var runnel = require('runnel');
 

@@ -50,23 +50,13 @@ function runnel () {
   func.call(this, handler);
 }
 
-
-// AMD support
-try {
-  if (typeof define === 'function' && define.amd) {
-    define(function () { return runnel; });
-    return;
-  }
-} catch (e) {}
-
-// If no AMD and we are in the browser, attach to window
-try {
-  if (window) 
-    window.runnel = runnel;
-    return;
-} catch (e) {}
-
-// Server side, just export
-if (module && typeof module.exports === 'object') 
+if (typeof define === 'function' && define.amd) {
+  // AMD support
+  define(function () { return runnel; });
+} else if (typeof window === 'object') {
+  // If no AMD and we are in the browser, attach to window
+  window.runnel = runnel;
+} else if (typeof module === 'object' && typeof module.exports === 'object') {
+  // Server side, just export
   module.exports = runnel;
-
+}

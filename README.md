@@ -1,6 +1,6 @@
 # runnel [![Build Status](https://secure.travis-ci.org/thlorenz/runnel.png)](http://travis-ci.org/thlorenz/runnel)
 
-**run·nel/ˈrənl/** - Noun: *A narrow channel in the ground for liquid to flow through.*
+**run·nel/ˈrənl/** -  *A narrow channel in the ground for liquid to flow through.*
 
 Simple and small (~30 loc) flow control library to execute async functions in sequence.
 

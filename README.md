@@ -54,6 +54,8 @@ runnel([ uno , dos , tres ]
 runnel was designed for very simple flow control to help avoid callback nesting or
 functions calling others from somewhere inside which makes for hard to follow code.
 
+From my experience this simple sequential flow control is what's needed in 90% of the cases.
+
 It should also help in avoiding repetitive `if (err) { cb(err); return; } ...` occurences in your code.
 
 ## More Examples

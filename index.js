@@ -14,7 +14,7 @@ function validate (funcs) {
   }
 }
 
-module.exports = function () {
+function runnel () {
   var funcs = slice.call(arguments);
   validate(funcs);
 
@@ -48,4 +48,25 @@ module.exports = function () {
   }
   
   func.call(this, handler);
-};
+}
+
+
+// AMD support
+try {
+  if (typeof define === 'function' && define.amd) {
+    define(function () { return runnel; });
+    return;
+  }
+} catch (e) {}
+
+// If no AMD and we are in the browser, attach to window
+try {
+  if (window) 
+    window.runnel = runnel;
+    return;
+} catch (e) {}
+
+// Server side, just export
+if (module && typeof module.exports === 'object') 
+  module.exports = runnel;
+

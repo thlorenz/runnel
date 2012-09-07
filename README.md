@@ -51,6 +51,8 @@ runnel(
   - no error supression
 - adheres to known nodejs pattern i.e., callbacks are expected to be of the form `function (err[,res]*) { ... }`
 - super small
+- browser support
+- AMD compliant (i.e., shimlessly works with [requirejs](https://github.com/jrburke/requirejs))
 
 ## Why another flow control library
 

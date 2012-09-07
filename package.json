@@ -1,7 +1,8 @@
 {
   "author": "Thorsten Lorenz <thlorenz@gmx.de> (http://thlorenz.com)",
   "name": "runnel",
-  "description": "Minimalistic sequential flow control",
+  "description": "Simple and small flow control library to execute async functions in sequence.
+",
   "version": "0.0.2",
   "repository": {
     "type": "git",
@@ -15,7 +16,10 @@
   "optionalDependencies": {},
   "keywords": [
     "flow control",
-    "async"
+    "async",
+    "sequence",
+    "simple",
+    "small"
   ],
   "license": "BSD",
   "engines": {

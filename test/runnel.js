@@ -48,7 +48,7 @@ test('parameter passing', function (t) {
 
   setup();
 
-  runnel([ uno, dos, tres ], function (err, resuno, resdos, restres) {
+  runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
     t.equal(err, null, 'no error');    
     t.equal(resuno, 'eins', 'passes first param');
     t.equal(resdos, 'zwei', 'passes second param');
@@ -62,7 +62,7 @@ test('error handling: last in chain (tres) fails', function (t) {
   setup();
   tresfails = true;
 
-  runnel([ uno, dos, tres ], function (err, resuno, resdos, restres) {
+  runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
     t.plan(7);
 
     t.equal(err.message, 'tres failed', 'passed error');
@@ -83,7 +83,7 @@ test('error handling: first in chain (uno) fails', function (t) {
   setup();
   unofails = true;
 
-  runnel([ uno, dos, tres ], function (err, resuno, resdos, restres) {
+  runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
     t.plan(7);
 
     t.equal(err.message, 'uno failed', 'passed error');
@@ -97,4 +97,23 @@ test('error handling: first in chain (uno) fails', function (t) {
 
     t.end();
   });
+});
+
+test('0 arguments', function (t) {
+  setup();
+  t.plan(1);
+  t.throws(function () { runnel(); }, { name: 'Error', message: 'Give runnel at least 2 functions to do any work.' });
+});
+
+test('1 argument', function (t) {
+  setup();
+  t.plan(1);
+  t.throws(function () { runnel(); }, { name: 'Error', message: 'Give runnel at least 2 functions to do any work.' });
+});
+
+test('3rd argument not a function', function (t) {
+  setup();
+  t.plan(1);
+  function f () {}
+  t.throws(function () { runnel(f, f, "duh"); }, { name: 'Error', message: 'All arguments passed to runnel need to be a function. Argument at (zero based) position 2 is not.' });
 });

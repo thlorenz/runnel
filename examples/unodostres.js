@@ -12,7 +12,10 @@ function tres (resuno, resdos, cb) {
   setTimeout(function () { cb(null, resuno, resdos, 'drei'); } , 100);
 }
 
-runnel([ uno , dos , tres ]
+runnel(
+    uno
+  , dos
+  , tres 
   , function (err, uno, dos, tres) {
       if (err) 
         console.error('Error: ', err);

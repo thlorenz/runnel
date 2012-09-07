@@ -1,12 +1,32 @@
-module.exports = function (funcs, done) {
-  var func = funcs.shift();
+var slice = Array.prototype.slice;
+
+function isFunction (obj) {
+  return Object.prototype.toString.call(obj) == '[object Function]';
+}
+
+function validate (funcs) {
+  if (funcs.length < 2)
+    throw new Error('Give runnel at least 2 functions to do any work.');
+
+  for (var i = 0; i < funcs.length; i++) {
+    if (!isFunction(funcs[i]))
+      throw new Error('All arguments passed to runnel need to be a function. Argument at (zero based) position ' + i + ' is not.');
+  }
+}
+
+module.exports = function () {
+  var funcs = slice.call(arguments);
+  validate(funcs);
+
+  var done = funcs.pop()
+    , func = funcs.shift();
 
   function handler (err) {
     var args;
 
     // Bail if any of the funcs encounters a problem
     if (err) {
-      args = Array.prototype.slice.call(arguments);
+      args = slice.call(arguments);
       done.apply(this, args);
       return;
     }
@@ -15,17 +35,17 @@ module.exports = function (funcs, done) {
 
     if (func) {
       // get args without err
-      args = Array.prototype.slice.call(arguments, 1);
+      args = slice.call(arguments, 1);
 
       // this handler becomes the callback for the current func we are calling
       args.push(handler);
 
       func.apply(this, args);
     } else {
-      args = Array.prototype.slice.call(arguments);
+      args = slice.call(arguments);
       done.apply(this, args);
     }
   }
   
   func.call(this, handler);
-}
+};

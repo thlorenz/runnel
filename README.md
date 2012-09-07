@@ -65,7 +65,7 @@ It should also help in avoiding repetitive `if (err) { cb(err); return; } ...` o
 
 ## More Examples
 
-Looky here: [examples](https://github.com/thlorenz/runnel/tree/master/examples) or consult the [tests](https://github.com/thlorenz/runnel/tree/master/tests).
+Looky here: [examples](https://github.com/thlorenz/runnel/tree/master/examples) or consult the [tests](https://github.com/thlorenz/runnel/tree/master/test).
 
 ## Similar libraries with larger feature set 
 

@@ -1,22 +1,18 @@
 var runnel = require('..');
 
 function uno (cb) {
-  cb(null, 'uno');
+  setTimeout(function () { cb(null, 'eins'); } , 100);
 }
 
-function dos (uno, cb) {
-  cb(null, uno, 'dos');
+function dos (resuno, cb) {
+  setTimeout(function () { cb(null, resuno, 'zwei'); } , 100);
 }
 
-function tres (uno, dos, cb) {
-  cb(null, uno, dos, 'tres');
+function tres (resuno, resdos, cb) {
+  setTimeout(function () { cb(null, resuno, resdos, 'drei'); } , 100);
 }
 
-runnel(
-    [ uno
-    , dos
-    , tres
-    ]
+runnel([ uno , dos , tres ]
   , function (err, uno, dos, tres) {
       if (err) 
         console.error('Error: ', err);
@@ -25,4 +21,4 @@ runnel(
     }
 );
 
-console.dir(Error.captureStackTrace)
+// Outputs: Success: uno: eins, dos: zwei, tres: drei

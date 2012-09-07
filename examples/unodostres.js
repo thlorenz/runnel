@@ -24,3 +24,5 @@ runnel(
         console.log('Success: uno: %s, dos: %s, tres: %s', uno, dos, tres);
     }
 );
+
+console.dir(Error.captureStackTrace)

@@ -2,7 +2,7 @@
 
 **run·nel/ˈrənl/** -  *A narrow channel in the ground for liquid to flow through.*
 
-Simple and small (~50 loc) flow control library to execute async functions in sequence.
+Simple and small (~60 loc) flow control library to execute async functions in sequence.
 
 ## Installation
 

@@ -44,7 +44,7 @@ runnel(
 ## Features
 
 - intuitive argument passing
-- fails early
+- [fails early](#early-failure)
 - **no magic**
   - no special (ab)uses of `this`
   - no context passing
@@ -53,6 +53,12 @@ runnel(
 - super small
 - browser support
 - AMD compliant (i.e., shimlessly works with [requirejs](https://github.com/jrburke/requirejs))
+
+## Early failure
+
+In order to avoid surprises runnel aborts the entire call chain once any function calls back with an error.
+
+In that case the last function in the chain is called with the error in order to provide feedback that something went wrong.
 
 ## Why another flow control library
 

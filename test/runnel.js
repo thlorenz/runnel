@@ -6,6 +6,7 @@ var test = require('tap').test
   , unocalled
   , doscalled
   , trescalled
+  , unocallsTwice
   ;
 
 function uno (cb) {
@@ -16,6 +17,9 @@ function uno (cb) {
         else cb(null, 'eins'); 
       } 
     , 10);
+
+  if (unocallsTwice)
+    setTimeout(function () { cb(null, 'eins'); } , 20);
 }
 
 function dos (resuno, cb) {
@@ -41,6 +45,7 @@ function tres (resuno, resdos, cb) {
 function setup () {
   unofails = dosfails = tresfails = false;
   unocalled = doscalled = trescalled = false;
+  unocallsTwice = false;
 }
 
 test('parameter passing', function (t) {
@@ -58,12 +63,12 @@ test('parameter passing', function (t) {
 });
 
 test('error handling: last in chain (tres) fails', function (t) {
+  t.plan(7);
 
   setup();
   tresfails = true;
 
   runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
-    t.plan(7);
 
     t.equal(err.message, 'tres failed', 'passed error');
     t.ok(unocalled, 'called uno');
@@ -79,12 +84,12 @@ test('error handling: last in chain (tres) fails', function (t) {
 });
 
 test('error handling: first in chain (uno) fails', function (t) {
+  t.plan(7);
 
   setup();
   unofails = true;
 
   runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
-    t.plan(7);
 
     t.equal(err.message, 'uno failed', 'passed error');
     t.ok(unocalled, 'called uno');
@@ -97,6 +102,48 @@ test('error handling: first in chain (uno) fails', function (t) {
 
     t.end();
   });
+});
+
+test('error handling: first in chain (uno) fails and calls again afterwards', function (t) {
+  t.plan(8);
+
+  setup();
+  unofails = true;
+  unocallsTwice = true;
+  var count = 0
+    , keptErr
+    , keptResuno
+    , keptResdos
+    , keptRestres
+    ;
+
+  runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
+    count++;
+    if (err) keptErr = err;
+
+    keptResuno = resuno;
+    keptResdos = resdos;
+    keptRestres = restres;
+  });
+
+  // Last callback would have happened after 20 + 10 + 10 = 40ms
+  setTimeout(
+      function () {
+
+        t.equal(count, 1, 'runnel called back only once');
+        t.equal(keptErr.message, 'uno failed', 'passed error');
+        t.ok(unocalled, 'called uno');
+        t.notOk(doscalled, 'not called dos');
+        t.notOk(trescalled, 'not called tres');
+
+        t.equal(keptResuno, undefined, 'no resuno');
+        t.equal(keptResdos, undefined, 'no resdos');
+        t.equal(keptRestres, undefined, 'no restres');
+
+        t.end();
+      }
+    , 50);
+
 });
 
 test('0 arguments', function (t) {

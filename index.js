@@ -19,13 +19,19 @@ function runnel () {
   validate(funcs);
 
   var done = funcs.pop()
-    , func = funcs.shift();
+    , func = funcs.shift()
+    , bailed = false
+    ;
 
   function handler (err) {
+    // Prevent starting to call down the chain when a func calls back with an err first and without one after
+    if (bailed) return;
+
     var args;
 
     // Bail if any of the funcs encounters a problem
     if (err) {
+      bailed = true;
       args = slice.call(arguments);
       done.apply(this, args);
       return;

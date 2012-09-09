@@ -26,7 +26,6 @@ function runnel () {
   function handler (err) {
     // Prevent re-triggering call chain when a func calls back with an err first and without one later
     if (bailed) return;
-
     var args;
 
     // Bail if any of the funcs encounters a problem

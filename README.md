@@ -2,7 +2,7 @@
 
 **run·nel/ˈrənl/** -  *A narrow channel in the ground for liquid to flow through.*
 
-Simple and small (~60 loc) flow control library to execute async functions in sequence.
+Simple and small (&lt; 70 loc) flow control library to execute async functions in sequence.
 
 ## Installation
 
@@ -48,7 +48,6 @@ runnel(
 - **no magic**
   - no special (ab)uses of `this`
   - no context passing
-  - no error supression
 - adheres to known nodejs pattern i.e., callbacks are expected to be of the form `function (err[,res]*) { ... }`
 - super small
 - browser support
@@ -62,12 +61,16 @@ In that case the last function in the chain is called with the error in order to
 
 ## Why another flow control library
 
-runnel was designed for very simple flow control to help avoid callback nesting or
-functions calling others from somewhere inside which makes for hard to follow code.
+From my experience simple, sequential flow control is sufficient in 90% of the cases and therefore using fuller featured
+and therefore also larger flow control libraries is unnecessary in those instances.
 
-From my experience this simple sequential flow control is what's needed in 90% of the cases.
+runnel however was designed for exactly these situations.
 
-It should also help in avoiding repetitive `if (err) { cb(err); return; } ...` occurences in your code.
+It helps avoid nesting callbacks and results in much more readable and maintainable code.
+
+It also helps minimize repetitive `if (err) { cb(err); return; } ...` occurences.
+
+Finally because runnel focuses only on one thing it's a very small module (&lt; 70 loc).
 
 ## More Examples
 

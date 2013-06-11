@@ -1,4 +1,4 @@
-var test = require('tap').test
+var test = require('tape').test
   , runnel = require('..')
   , unofails
   , dosfails

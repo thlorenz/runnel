@@ -1,6 +1,9 @@
 ;(function () {
   'use strict';
   var slice = Array.prototype.slice;
+  var isArray = typeof Array.isArray === 'function' 
+      ? Array.isArray
+      : function (a) { return !!a.length; };
 
   function isFunction (obj) {
     return Object.prototype.toString.call(obj) == '[object Function]';
@@ -17,7 +20,7 @@
   }
 
   function runnel (arg) {
-    var funcs = Array.isArray(arg) ? arg : slice.call(arguments);
+    var funcs = isArray(arg) ? arg : slice.call(arguments);
     validate(funcs);
 
     var done = funcs.pop()

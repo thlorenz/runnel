@@ -8,11 +8,10 @@
     "url": "git://github.com/thlorenz/runnel.git"
   },
   "main": "index.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "tap": "~0.3.1",
-    "tape": "~1.0.4"
+    "tape": "~1.0.4",
+    "tap": "~0.4.3"
   },
   "optionalDependencies": {},
   "keywords": [

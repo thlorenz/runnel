@@ -3,7 +3,7 @@
   var slice = Array.prototype.slice;
   var isArray = typeof Array.isArray === 'function' 
       ? Array.isArray
-      : function (a) { return !!a.length; };
+      : function (a) { return typeof a === 'object' && !!a.length; };
 
   function isFunction (obj) {
     return Object.prototype.toString.call(obj) == '[object Function]';

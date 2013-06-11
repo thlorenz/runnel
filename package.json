@@ -9,10 +9,10 @@
   },
   "main": "index.js",
   "dependencies": {
-    "tape": "~1.0.4"
   },
   "devDependencies": {
-    "tap": "~0.3.1"
+    "tap": "~0.3.1",
+    "tape": "~1.0.4"
   },
   "optionalDependencies": {},
   "keywords": [

@@ -1,4 +1,5 @@
-(function () {
+;(function () {
+  'use strict';
   var slice = Array.prototype.slice;
 
   function isFunction (obj) {
@@ -56,14 +57,14 @@
     func.call(this, handler);
   }
 
-  if (typeof define === 'function' && define.amd) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    // Server side, just export
+    module.exports = runnel;
+  } else if (typeof define === 'function' && define.amd) {
     // AMD support
     define(function () { return runnel; });
   } else if (typeof window === 'object') {
     // If no AMD and we are in the browser, attach to window
     window.runnel = runnel;
-  } else if (typeof module === 'object' && typeof module.exports === 'object') {
-    // Server side, just export
-    module.exports = runnel;
-  }
+  } 
 })();

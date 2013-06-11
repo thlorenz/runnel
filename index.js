@@ -16,8 +16,8 @@
     }
   }
 
-  function runnel () {
-    var funcs = slice.call(arguments);
+  function runnel (arg) {
+    var funcs = Array.isArray(arg) ? arg : slice.call(arguments);
     validate(funcs);
 
     var done = funcs.pop()

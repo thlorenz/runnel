@@ -62,6 +62,21 @@ test('parameter passing', function (t) {
   });
 });
 
+test('functions passed as array', function (t) {
+  t.plan(4);
+
+  setup();
+
+  runnel([uno, dos, tres, function (err, resuno, resdos, restres) {
+    t.equal(err, null, 'no error');    
+    t.equal(resuno, 'eins', 'passes first param');
+    t.equal(resdos, 'zwei', 'passes second param');
+    t.equal(restres, 'drei', 'passes third param');
+    t.end();
+  }]);
+})
+
+
 test('error handling: last in chain (tres) fails', function (t) {
   t.plan(7);
 
@@ -164,3 +179,4 @@ test('3rd argument not a function', function (t) {
   function f () {}
   t.throws(function () { runnel(f, f, "duh"); }, { name: 'Error', message: 'All arguments passed to runnel need to be a function. Argument at (zero based) position 2 is not.' });
 });
+

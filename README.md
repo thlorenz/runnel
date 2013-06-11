@@ -5,7 +5,6 @@
 
 Simple and small (&lt; 70 loc) flow control library to execute async functions in sequence.
 
-
 ## Installation
 
     npm install runnel
@@ -40,7 +39,22 @@ runnel(
 );
 
 // Outputs: Success: uno: eins, dos: zwei, tres: drei
+```
 
+```js
+// functions can also be passed as an array
+
+function handler(err, resuno, resdos, restres) {
+  if (err) 
+    console.error('Error: ', err);
+  else
+    console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
+}
+
+var funcs = [uno, dos, tres ];
+funcs.push(handler);
+
+runnel(funcs);
 ```
 
 ## Features
@@ -53,7 +67,12 @@ runnel(
 - adheres to known nodejs pattern i.e., callbacks are expected to be of the form `function (err[,res]*) { ... }`
 - super small
 - browser support
+
+## Compatibility
+
+- commonJS compatible, so it works with nodejs and browserify
 - AMD compliant (i.e., shimlessly works with [requirejs](https://github.com/jrburke/requirejs))
+- attaches itself to the `window` object if neither commonJS or AMD support is detected
 
 ## Early failure
 

@@ -19,6 +19,11 @@
     }
   }
 
+  function addDetails(err) {
+    err.message = (err.message || '') + '\nDetails:\n' + err.stack;
+    return err;
+  }
+
   function runnel (arg) {
     var funcs = isArray(arg) ? arg : slice.call(arguments);
     validate(funcs);
@@ -37,6 +42,7 @@
       if (err) {
         bailed = true;
         args = slice.call(arguments);
+        addDetails(err);
         done.apply(this, args);
         return;
       }
@@ -50,7 +56,13 @@
         // this handler becomes the callback for the current func we are calling
         args.push(handler);
 
-        func.apply(this, args);
+        try {
+          func.apply(this, args);
+        } catch (err) {
+          bailed = true;
+          done.call(this, addDetails(err));
+          return;
+        }
       } else {
         args = slice.call(arguments);
         done.apply(this, args);
@@ -61,7 +73,7 @@
   }
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
-    // Server side, just export
+    // CommonJS, just export
     module.exports = runnel;
   } else if (typeof define === 'function' && define.amd) {
     // AMD support

@@ -1,10 +1,14 @@
-var test = require('tape').test
+'use strict';
+/*jshint asi: true */
+
+var test = require('tape')
   , runnel = require('..')
   , unofails
   , dosfails
   , tresfails
   , unocalled
   , doscalled
+  , baddoscalled
   , trescalled
   , unocallsTwice
   ;
@@ -32,6 +36,17 @@ function dos (resuno, cb) {
     , 10);
 }
 
+function baddos (resuno, cb) {
+  baddoscalled = true;
+  throw new Error('dos was bad');
+}
+
+function synerror (resuno, cb) {
+  var a;
+  // on purpose
+  aa++;
+}
+
 function tres (resuno, resdos, cb) {
   trescalled = true;
   setTimeout( 
@@ -44,11 +59,11 @@ function tres (resuno, resdos, cb) {
 
 function setup () {
   unofails = dosfails = tresfails = false;
-  unocalled = doscalled = trescalled = false;
+  unocalled = doscalled = baddoscalled = trescalled = false;
   unocallsTwice = false;
 }
 
-test('parameter passing', function (t) {
+test('\n parameter passing', function (t) {
   t.plan(4);
 
   setup();
@@ -62,7 +77,7 @@ test('parameter passing', function (t) {
   });
 });
 
-test('functions passed as array', function (t) {
+test('\n functions passed as array', function (t) {
   t.plan(4);
 
   setup();
@@ -77,7 +92,7 @@ test('functions passed as array', function (t) {
 })
 
 
-test('error handling: last in chain (tres) fails', function (t) {
+test('\n error handling: last in chain (tres) fails', function (t) {
   t.plan(7);
 
   setup();
@@ -85,7 +100,8 @@ test('error handling: last in chain (tres) fails', function (t) {
 
   runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
 
-    t.equal(err.message, 'tres failed', 'passed error');
+  
+    t.ok(/tres failed/.test(err.message), 'passes error');
     t.ok(unocalled, 'called uno');
     t.ok(doscalled, 'called dos');
     t.ok(trescalled, 'called tres');
@@ -98,7 +114,7 @@ test('error handling: last in chain (tres) fails', function (t) {
   });
 });
 
-test('error handling: first in chain (uno) fails', function (t) {
+test('\n error handling: first in chain (uno) fails', function (t) {
   t.plan(7);
 
   setup();
@@ -106,7 +122,7 @@ test('error handling: first in chain (uno) fails', function (t) {
 
   runnel(uno, dos, tres, function (err, resuno, resdos, restres) {
 
-    t.equal(err.message, 'uno failed', 'passed error');
+    t.ok(/uno failed/.test(err.message), 'passes error');
     t.ok(unocalled, 'called uno');
     t.notOk(doscalled, 'not called dos');
     t.notOk(trescalled, 'not called tres');
@@ -119,7 +135,7 @@ test('error handling: first in chain (uno) fails', function (t) {
   });
 });
 
-test('error handling: first in chain (uno) fails and calls again afterwards', function (t) {
+test('\n error handling: first in chain (uno) fails and calls again afterwards', function (t) {
   t.plan(8);
 
   setup();
@@ -146,7 +162,7 @@ test('error handling: first in chain (uno) fails and calls again afterwards', fu
       function () {
 
         t.equal(count, 1, 'runnel called back only once');
-        t.equal(keptErr.message, 'uno failed', 'passed error');
+        t.ok(/uno failed/.test(keptErr.message), 'passes error');
         t.ok(unocalled, 'called uno');
         t.notOk(doscalled, 'not called dos');
         t.notOk(trescalled, 'not called tres');
@@ -161,22 +177,53 @@ test('error handling: first in chain (uno) fails and calls again afterwards', fu
 
 });
 
-test('0 arguments', function (t) {
+test('\n 0 arguments', function (t) {
   setup();
   t.plan(1);
   t.throws(function () { runnel(); }, { name: 'Error', message: 'Give runnel at least 2 functions to do any work.' });
 });
 
-test('1 argument', function (t) {
+test('\n 1 argument', function (t) {
   setup();
   t.plan(1);
   t.throws(function () { runnel(); }, { name: 'Error', message: 'Give runnel at least 2 functions to do any work.' });
 });
 
-test('3rd argument not a function', function (t) {
+test('\n 3rd argument not a function', function (t) {
   setup();
   t.plan(1);
   function f () {}
   t.throws(function () { runnel(f, f, "duh"); }, { name: 'Error', message: 'All arguments passed to runnel need to be a function. Argument at (zero based) position 2 is not.' });
 });
 
+test('\n second callback throws', function (t) {
+  
+  setup();
+
+  runnel(uno, baddos, tres, function (err, resuno, resdos, restres) {
+
+    t.ok(/dos was bad/.test(err.message), 'passes error');
+    t.ok(unocalled, 'called uno');
+    t.ok(baddoscalled, 'called baddos');
+    t.notOk(trescalled, 'not called tres');
+
+    t.equal(resuno, undefined, 'no resuno');
+    t.equal(resdos, undefined, 'no resdos');
+    t.equal(restres, undefined, 'no restres');
+
+    t.end();
+  });
+})
+
+test('\n second callback has syntax error', function (t) {
+  
+  setup();
+
+  runnel(uno, synerror, tres, function (err) {
+    t.ok(/aa is not defined/.test(err.message), 'passes syntax error');
+    t.ok(unocalled, 'called uno');
+    t.notOk(trescalled, 'not called tres');
+
+    t.end();
+  });
+})

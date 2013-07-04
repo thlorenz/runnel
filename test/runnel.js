@@ -220,7 +220,7 @@ test('\n second callback has syntax error', function (t) {
   setup();
 
   runnel(uno, synerror, tres, function (err) {
-    t.ok(/aa is not defined/.test(err.message), 'passes syntax error');
+    t.ok(/aa/.test(err.message), 'passes syntax error');
     t.ok(unocalled, 'called uno');
     t.notOk(trescalled, 'not called tres');
 

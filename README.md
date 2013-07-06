@@ -5,9 +5,29 @@
 
 Simple and small (~ 80 loc) flow control library to execute async functions in sequence.
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Installation](#installation)
+- [Examples](#examples)
+  - [Parameter passing](#parameter-passing)
+  - [Passing Array of functions](#passing-array-of-functions)
+  - [Seeding a start value](#seeding-a-start-value)
+- [Features](#features)
+- [API](#api)
+  - [*runnel(fn1[, fn2][, fn3][, ...], done)*](#runnelfn1-fn2-fn3--done)
+  - [*runnel([fn1, fn2, .., done])*](#runnelfn1-fn2--done)
+  - [*runnel.seed(value)*](#runnelseedvalue)
+- [Compatibility](#compatibility)
+- [Early failure](#early-failure)
+- [Why another flow control library](#why-another-flow-control-library)
+- [More Examples](#more-examples)
+- [Similar libraries with larger feature set](#similar-libraries-with-larger-feature-set)
+
 ## Installation
 
     npm install runnel
+
+## Examples
 
 ### Parameter passing
 
@@ -84,7 +104,10 @@ runnel(
 // => sizes: { '.gitignore': 96, '.jshintrc': 249, '.travis.yml': 52 }
 ```
 [full example](https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed-explicit-functions.js)
+
 [same example using array of functions](https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed.js)
+
+Many more [examples](https://github.com/thlorenz/runnel/tree/master/examples).
 
 ## Features
 
@@ -116,7 +139,7 @@ flows with array operations like `concat` and `push` like is done in [this examp
 https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed.js).
 
 More importantly it allows `map`ping values to async functions and then execute them sequentially, akin to
-[Q.all])https://github.com/kriskowal/q#combination).
+[`Q.all`](https://github.com/kriskowal/q#combination).
 
 For more information see [this real world example](https://github.com/thlorenz/bromote/blob/master/index.js).
 

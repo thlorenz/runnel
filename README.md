@@ -30,7 +30,7 @@ runnel(
     uno
   , dos
   , tres 
-  , function handler(err, resuno, resdos, restres) {
+  , function done(err, resuno, resdos, restres) {
       if (err) return console.error('Error: ', err);
       console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
     }
@@ -42,13 +42,13 @@ runnel(
 ### Passing Array of functions
 
 ```js
-function handler(err, resuno, resdos, restres) {
+function done(err, resuno, resdos, restres) {
   if (err) return console.error('Error: ', err);
   console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
 }
 
 var funcs = [uno, dos, tres ];
-funcs.push(handler);
+funcs.push(done);
 
 runnel(funcs);
 ```

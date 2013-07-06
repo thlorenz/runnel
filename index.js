@@ -5,16 +5,12 @@
       ? Array.isArray
       : function (a) { return typeof a === 'object' && !!a.length; };
 
-  function isFunction (obj) {
-    return Object.prototype.toString.call(obj) == '[object Function]';
-  }
-
   function validate (funcs) {
     if (funcs.length < 2)
       throw new Error('Give runnel at least 2 functions to do any work.');
 
     for (var i = 0; i < funcs.length; i++) {
-      if (!isFunction(funcs[i]))
+      if (typeof funcs[i] !== 'function')
         throw new Error('All arguments passed to runnel need to be a function. Argument at (zero based) position ' + i + ' is not.');
     }
   }

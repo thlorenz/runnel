@@ -107,8 +107,6 @@ runnel(
 
 [same example using array of functions](https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed.js)
 
-Many more [examples](https://github.com/thlorenz/runnel/tree/master/examples).
-
 ## Features
 
 - intuitive argument passing

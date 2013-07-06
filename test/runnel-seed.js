@@ -12,4 +12,12 @@ test('\nseeding one value ', function (t) {
   })
 })
 
-
+test('\nseeding three values', function (t) {
+  runnel(runnel.seed(1, 2, 3), function (err, uno, dos, tres) {
+    t.notOk(err, 'no error')
+    t.equal(uno, 1, 'passes first')
+    t.equal(dos, 2, 'passes second')
+    t.equal(tres, 3, 'passes third')
+    t.end()
+  })
+})

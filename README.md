@@ -3,7 +3,7 @@
 
 **run·nel/ˈrənl/** -  *A narrow channel in the ground for liquid to flow through.*
 
-Simple and small (&lt; 70 loc) flow control library to execute async functions in sequence.
+Simple and small (~ 80 loc) flow control library to execute async functions in sequence.
 
 ## Installation
 
@@ -91,7 +91,7 @@ It helps avoid nesting callbacks and results in much more readable and maintaina
 
 It also helps minimize repetitive `if (err) { cb(err); return; } ...` occurences.
 
-Finally because runnel focuses only on one thing it's a very small module (&lt; 70 loc).
+Finally because runnel focuses only on one thing it's a very small module (~ 80 loc).
 
 ## More Examples
 

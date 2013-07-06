@@ -68,6 +68,12 @@
     func.call(this, handler);
   }
 
+  runnel.seed = function () {
+    var args = [null].concat(slice.call(arguments))
+      , that = this;
+    return function (cb) { cb.apply(that, args); };
+  };
+
   if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS, just export
     module.exports = runnel;

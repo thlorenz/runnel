@@ -4,6 +4,19 @@
 var test = require('tape')
 var runnel = require('..')
 
+
+// OMG -- IE8
+
+if (typeof Array.prototype.map !== 'function') {
+  Array.prototype.map = function (fn) {
+    var mapped = [];
+    for (var i = 0; i < this.length; i++) {
+      mapped.push(fn(this[i]));
+    }
+    return mapped;
+  }
+}
+
 test('\nseeding one value ', function (t) {
   runnel(runnel.seed(1), function (err, val) {
     t.notOk(err, 'no error')

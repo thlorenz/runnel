@@ -9,7 +9,7 @@ Simple and small (~ 80 loc) flow control library to execute async functions in s
 
     npm install runnel
 
-## Example
+### Parameter passing
 
 ```javascript
 var runnel = require('runnel');
@@ -30,25 +30,21 @@ runnel(
     uno
   , dos
   , tres 
-  , function (err, resuno, resdos, restres) {
-      if (err) 
-        console.error('Error: ', err);
-      else
-        console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
+  , function handler(err, resuno, resdos, restres) {
+      if (err) return console.error('Error: ', err);
+      console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
     }
 );
 
-// Outputs: Success: uno: eins, dos: zwei, tres: drei
+// => Success: uno: eins, dos: zwei, tres: drei
 ```
 
-```js
-// functions can also be passed as an array
+### Passing Array of functions
 
+```js
 function handler(err, resuno, resdos, restres) {
-  if (err) 
-    console.error('Error: ', err);
-  else
-    console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
+  if (err) return console.error('Error: ', err);
+  console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
 }
 
 var funcs = [uno, dos, tres ];
@@ -57,9 +53,42 @@ funcs.push(handler);
 runnel(funcs);
 ```
 
+### Seeding a start value
+
+```js
+function size (file, acc, cb) {
+  var p = path.join(__dirname, '..', file);
+
+  fs.stat(p, function (err, stat) {
+    if (err) return cb(err);
+
+    acc[file] = stat.size;
+    cb(null, acc);
+  });
+}
+
+runnel(
+    // {} will be passed as the first value to next function and thus become 'acc', the accumulator
+    runnel.seed({})
+  
+    // after we bind 'file' to the size function the resulting custom size function has signature 'function (acc, cb) {}'
+  , size.bind(null, '.gitignore')
+  , size.bind(null, '.jshintrc')
+  , size.bind(null, '.travis.yml')
+
+  , function done (err, acc) {
+      if (err) return console.error(err);
+      console.log('sizes:', acc);
+    }
+);
+
+// => sizes: { '.gitignore': 96, '.jshintrc': 249, '.travis.yml': 52 }
+```
+
 ## Features
 
 - intuitive argument passing
+- seeding a start value to enable async reduce like functionality
 - [fails early](#early-failure)
 - **no magic**
   - no special (ab)uses of `this`
@@ -68,6 +97,22 @@ runnel(funcs);
 - super small
 - browser support
 
+## API
+
+All functions below are expected to invoke the callback like so:
+  - `cb(null, res1[, res2][,..]` if no error occurred
+  - `cb(err)` if an error occurred
+
+### *runnel(fn1[, fn2][, fn3][, ...], done)*
+
+Sequentially runs all the given functions, passing results from one to the next. In case any of the functions calls back
+with an error `done` will be called with that error immediately.
+
+### *runnel([fn1, fn2, .., done])*
+
+Same as above except that functions are passed as an array rather than as separate values.
+
+Executes all
 ## Compatibility
 
 - commonJS compatible, so it works with nodejs and browserify

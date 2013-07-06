@@ -71,7 +71,9 @@
   runnel.seed = function () {
     var args = [null].concat(slice.call(arguments))
       , that = this;
-    return setTimeout.bind(null, function (cb) { cb.apply(that, args); }, 0);
+    return function (cb) { 
+      setTimeout(function () { cb.apply(that, args); }, 0);
+    };
   };
 
   if (typeof module === 'object' && typeof module.exports === 'object') {

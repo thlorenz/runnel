@@ -15,9 +15,11 @@
   },
   "optionalDependencies": {},
   "keywords": [
-    "flow control",
+    "flow", 
+    "control",
     "async",
     "sequence",
+    "reduce",
     "simple",
     "small"
   ],

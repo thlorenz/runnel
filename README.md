@@ -42,10 +42,7 @@ runnel(
 ### Passing Array of functions
 
 ```js
-function done(err, resuno, resdos, restres) {
-  if (err) return console.error('Error: ', err);
-  console.log('Success: uno: %s, dos: %s, tres: %s', resuno, resdos, restres);
-}
+// using uno, dos, tres and done functions from above
 
 var funcs = [uno, dos, tres ];
 funcs.push(done);
@@ -68,10 +65,12 @@ function size (file, acc, cb) {
 }
 
 runnel(
-    // {} will be passed as the first value to next function and thus become 'acc', the accumulator
+    // {} will be passed as the first value to next function 
+    // and thus become 'acc', the accumulator
     runnel.seed({})
   
-    // after we bind 'file' to the size function the resulting custom size function has signature 'function (acc, cb) {}'
+    // after we bind 'file' to the size function the resulting 
+    // custom size function has signature 'function (acc, cb) {}'
   , size.bind(null, '.gitignore')
   , size.bind(null, '.jshintrc')
   , size.bind(null, '.travis.yml')
@@ -84,6 +83,8 @@ runnel(
 
 // => sizes: { '.gitignore': 96, '.jshintrc': 249, '.travis.yml': 52 }
 ```
+[full example](https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed-explicit-functions.js)
+[same example using array of functions](https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed.js)
 
 ## Features
 
@@ -110,9 +111,21 @@ with an error `done` will be called with that error immediately.
 
 ### *runnel([fn1, fn2, .., done])*
 
-Same as above except that functions are passed as an array rather than as separate values.
+Same as above except that functions are passed as an array rather than as separate values, which allows building up a
+flows with array operations like `concat` and `push` like is done in [this example](
+https://github.com/thlorenz/runnel/blob/master/examples/runnel-seed.js).
 
-Executes all
+More importantly it allows `map`ping values to async functions and then execute them sequentially, akin to
+[Q.all])https://github.com/kriskowal/q#combination).
+
+For more information see [this real world example](https://github.com/thlorenz/bromote/blob/master/index.js).
+
+### *runnel.seed(value)*
+
+Returns a function that will call back with the seeded `value` as the result, which can then be consumed by the next
+function in line. This allows easily implementing async reduce flows as shown in [this
+example](https://github.com/thlorenz/runnel#seeding-a-start-value)
+
 ## Compatibility
 
 - commonJS compatible, so it works with nodejs and browserify

@@ -1,7 +1,7 @@
 ;(function () {
   'use strict';
   var slice = Array.prototype.slice;
-  var isArray = typeof Array.isArray === 'function' 
+  var isArray = typeof Array.isArray === 'function'
       ? Array.isArray
       : function (a) { return typeof a === 'object' && !!a.length; };
 
@@ -29,7 +29,7 @@
       , bailed = false
       ;
 
-    function handler (err) {
+    function handler (err, res /* optional and could be more than one */) {
       // Prevent re-triggering call chain when a func calls back with an err first and without one later
       if (bailed) return;
       var args;
@@ -64,14 +64,14 @@
         done.apply(this, args);
       }
     }
-    
+
     func.call(this, handler);
   }
 
   runnel.seed = function () {
     var args = [null].concat(slice.call(arguments))
       , that = this;
-    return function (cb) { 
+    return function (cb) {
       setTimeout(function () { cb.apply(that, args); }, 0);
     };
   };
@@ -85,5 +85,5 @@
   } else if (typeof window === 'object') {
     // If no AMD and we are in the browser, attach to window
     window.runnel = runnel;
-  } 
+  }
 })();

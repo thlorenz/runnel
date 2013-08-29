@@ -23,7 +23,7 @@
     "simple",
     "small"
   ],
-  "license": "BSD",
+  "license": "MIT",
   "engines": {
     "node": "*"
   },

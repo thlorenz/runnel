@@ -23,7 +23,10 @@
     "simple",
     "small"
   ],
-  "license": "MIT",
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/thlorenz/runner/blob/master/LICENSE"
+  },
   "engines": {
     "node": "*"
   },

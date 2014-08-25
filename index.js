@@ -16,7 +16,16 @@
   }
 
   function addDetails(err) {
-    err.message = (err.message || '') + '\nDetails:\n' + err.stack;
+    try {
+      err.message = (err.message || '') + '\nDetails:\n' + err.stack; 
+    } catch (e) {
+      // the error object is sealed, frozen or the message property is read-only
+      var newError = new Error();
+      newError.message = (err.message || '') + '\nDetails:\n' + err.stack;
+      newError.type = err.type;
+      newError.stack = err.stack;
+      err = newError;
+    }
     return err;
   }
 
